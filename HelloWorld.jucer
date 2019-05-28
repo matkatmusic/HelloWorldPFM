@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="gn8vZk" name="HelloWorld" projectType="guiapp" jucerVersion="5.3.2">
+<JUCERPROJECT id="gn8vZk" name="HelloWorld" projectType="guiapp" jucerVersion="5.4.3">
   <MAINGROUP id="IYmgVk" name="HelloWorld">
     <GROUP id="{C61C02E5-D425-92E8-22B3-F5B953C668CB}" name="Source">
       <FILE id="tdSMQC" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
