@@ -8,9 +8,21 @@
 
 #include "MainComponent.h"
 
-//==============================================================================
-MainComponent::MainComponent()
+template<class ButtonType>
+auto makeButton(ButtonType* buttonToMakeUnique) -> std::unique_ptr<ButtonType>
 {
+    return std::unique_ptr<ButtonType>(buttonToMakeUnique);
+}
+
+//==============================================================================
+MainComponent::MainComponent() 
+{
+    heapButton.reset(new HeapButtonWrapper<TextButton>([](){ DBG("you clicked the heap"); },
+                                                       new TextButton("heapButton") ) );
+    
+    addAndMakeVisible(button);
+    
+    addAndMakeVisible( (*heapButton) );
     setSize (600, 400);
 }
 
@@ -34,4 +46,11 @@ void MainComponent::resized()
     // This is called when the MainComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
+    
+    button->setBounds(498,
+                      0,
+                      100, 30);
+    (*heapButton)->setBounds(498,
+                             368,
+                             100, 30);
 }
