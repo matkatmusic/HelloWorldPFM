@@ -27,30 +27,15 @@ struct Widget : public Component
     int num = 0;
 };
 
-struct OwnedArrayComponent : Component
+struct OwnedArrayComponent : Component, Button::Listener
 {
-    OwnedArrayComponent()
-    {
-        for( int i = 0; i < 10; ++i )
-        {
-            auto* widget = widgets.add( new Widget(i) );
-            addAndMakeVisible(widget);
-        }
-    }
+    OwnedArrayComponent();
+    ~OwnedArrayComponent();
+    void resized() override;
+    void buttonClicked(Button* buttonThatWasClicked) override;
     
-    void resized() override
-    {
-        auto width = getWidth() / static_cast<float>(widgets.size());
-        int x = 0;
-        auto h = getHeight();
-        for( auto* widget : widgets )
-        {
-            widget->setBounds(x, 0, width, h);
-            x += width;
-        }
-    }
-    
-    OwnedArray<Widget> widgets;
+private:
+    OwnedArray<TextButton> buttons;
 };
 
 struct MyComp : Component
@@ -95,21 +80,25 @@ public:
     void resized() override;
     void mouseEnter(const MouseEvent& e) override
     {
-        DBG( "MainComponent mouseEnter " << counter );
-        ++counter;
+//        DBG( "MainComponent mouseEnter " << counter );
+//        ++counter;
     }
     void mouseExit(const MouseEvent& e) override
     {
-        DBG( "MainComponent mouseExit " << counter );
-        ++counter;
+//        DBG( "MainComponent mouseExit " << counter );
+//        ++counter;
     }
     void mouseMove(const MouseEvent& e) override
     {
-        DBG( "MainComponent mouseMove " << counter );
-        ++counter;
+//        DBG( "MainComponent mouseMove " << counter );
+//        ++counter;
+    }
+    void mouseDown(const MouseEvent& e) override
+    {
+        DBG( "you clicked the mouse" );
     }
 private:
-    int counter = 0;
+//    int counter = 0;
     MyComp comp;
     OwnedArrayComponent ownedArrayComp;
     //==============================================================================
