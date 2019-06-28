@@ -52,5 +52,21 @@ struct MyThreadExample : Thread
         }
     }
 };
-
+//=================================================================
+struct ImageProcessingThread : public Thread
+{
+    ImageProcessingThread(int w_, int h_ ) : Thread("ImageProcessingThread"), w(w_), h(h_)
+    { startThread(); }
+    
+    ~ImageProcessingThread()
+    { stopThread(500); }
+    
+    void run() override;
+    //our updateRenderer is private, so we need a setter
+    void setUpdateRendererFunc(std::function<void(Image&&)> f ) { updateRenderer = std::move(f); }
+private:
+    //members to hold the image size
+    int w { 0 }, h {0};
+    std::function<void(Image&&)> updateRenderer;
+};
 
