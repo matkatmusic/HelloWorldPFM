@@ -70,4 +70,10 @@ private:
     std::function<void(Image&&)> updateRenderer;
     Random r;
 };
-
+//=================================================================
+struct Renderer : Component
+{
+    void paint(Graphics& g) override;
+private:
+    std::unique_ptr<ImageProcessingThread> processingThread;
+};

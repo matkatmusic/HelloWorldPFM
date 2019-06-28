@@ -39,3 +39,8 @@ void ImageProcessingThread::run()
         wait(-1);
     }
 }
+//=================================================================
+void Renderer::paint(Graphics& g)
+{
+    
+}
