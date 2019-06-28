@@ -36,7 +36,7 @@ void ImageProcessingThread::run()
             break;
         
         if( updateRenderer )
-            updateRenderer(std::move(canvas)); //move semantics don't allocate or so we currently believe
+            updateRenderer(std::move(canvas), *this); //move semantics don't allocate or so we currently believe
         
         wait(-1);
     }
@@ -65,7 +65,7 @@ Renderer::Renderer()
     {
         processingThread = std::make_unique<ImageProcessingThread>(getWidth(),
                                                                    getHeight(),
-                                                                   [this](Image&& image)
+                                                                   [this](Image&& image, ImageProcessingThread& thread)
         {
             int renderIndex = firstImage ? 0 : 1;
             firstImage = !firstImage;
@@ -73,10 +73,13 @@ Renderer::Renderer()
             
             triggerAsyncUpdate();
             
-            lambdaTimer = std::make_unique<LambdaTimer>(1000, [this]()
+            if( !thread.threadShouldExit() )
             {
-                processingThread->notify();
-            });
+                lambdaTimer = std::make_unique<LambdaTimer>(1000, [this]()
+                {
+                    processingThread->notify();
+                });
+            }
         });
     });
 }

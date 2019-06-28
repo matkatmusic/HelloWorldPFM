@@ -53,9 +53,12 @@ struct MyThreadExample : Thread
     }
 };
 //=================================================================
+struct ImageProcessingThread;
+using ImagePassingFunc = std::function<void(Image&&, ImageProcessingThread&)>;
+
 struct ImageProcessingThread : public Thread
 {
-    ImageProcessingThread(int w_, int h_, std::function<void(Image&&)> f) : Thread("ImageProcessingThread"), w(w_), h(h_), updateRenderer( std::move(f) )
+    ImageProcessingThread(int w_, int h_, ImagePassingFunc f) : Thread("ImageProcessingThread"), w(w_), h(h_), updateRenderer( std::move(f) )
     { startThread(); }
     
     ~ImageProcessingThread()
@@ -67,7 +70,7 @@ struct ImageProcessingThread : public Thread
 private:
     //members to hold the image size
     int w { 0 }, h {0};
-    std::function<void(Image&&)> updateRenderer;
+    ImagePassingFunc updateRenderer;
     Random r;
 };
 //=================================================================
