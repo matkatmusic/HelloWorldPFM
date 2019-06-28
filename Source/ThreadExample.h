@@ -84,12 +84,12 @@ private:
 };
 //=================================================================
 #include <array>
-struct Renderer : Component, AsyncUpdater
+struct Renderer : Component, Timer
 {
     Renderer();
     ~Renderer();
     void paint(Graphics& g) override;
-    void handleAsyncUpdate() override;
+    void timerCallback() override;
 private:
     std::unique_ptr<ImageProcessingThread> processingThread;
     std::unique_ptr<LambdaTimer> lambdaTimer;

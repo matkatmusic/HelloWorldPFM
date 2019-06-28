@@ -71,7 +71,7 @@ Renderer::Renderer()
             firstImage = !firstImage;
             imageToRenderTo[renderIndex] = std::move(image);
             
-            triggerAsyncUpdate();
+//            triggerAsyncUpdate();
             
             if( !thread.threadShouldExit() )
             {
@@ -82,6 +82,7 @@ Renderer::Renderer()
             }
         });
     });
+    startTimerHz(20);
 }
 
 Renderer::~Renderer()
@@ -97,7 +98,7 @@ void Renderer::paint(Graphics& g)
                 getLocalBounds().toFloat());
 }
 
-void Renderer::handleAsyncUpdate()
+void Renderer::timerCallback()
 {
     repaint();
 }
