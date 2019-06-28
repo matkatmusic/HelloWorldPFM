@@ -54,7 +54,7 @@ struct MyThreadExample : Thread
 };
 //=================================================================
 struct ImageProcessingThread;
-using ImagePassingFunc = std::function<void(Image&&, ImageProcessingThread&)>;
+using ImagePassingFunc = std::function<void(Image, ImageProcessingThread&)>;
 
 struct ImageProcessingThread : public Thread
 {
