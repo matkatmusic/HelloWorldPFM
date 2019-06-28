@@ -67,12 +67,7 @@ Renderer::Renderer()
                                                                    getHeight(),
                                                                    [this](Image image, ImageProcessingThread& thread)
         {
-            bool whichIndex = firstImage.get();
-            int renderIndex = whichIndex ? 0 : 1;
-            firstImage = !whichIndex;
-            imageToRenderTo[renderIndex] = image;
-            
-//            triggerAsyncUpdate();
+            imageToRenderTo.push(image);
             
             if( !thread.threadShouldExit() )
             {
@@ -95,7 +90,7 @@ Renderer::~Renderer()
 void Renderer::paint(Graphics& g)
 {
     DBG("[Renderer] painting: " << Time::getCurrentTime().toISO8601(true) << "\n");
-    g.drawImage(firstImage.get() ? imageToRenderTo[0] : imageToRenderTo[1],
+    g.drawImage(imageToRenderTo.read(),
                 getLocalBounds().toFloat());
 }
 
