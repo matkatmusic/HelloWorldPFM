@@ -80,12 +80,16 @@ private:
     std::function<void()> lambda;
 };
 //=================================================================
-struct Renderer : Component
+#include <array>
+struct Renderer : Component, AsyncUpdater
 {
     Renderer();
     ~Renderer();
     void paint(Graphics& g) override;
+    void handleAsyncUpdate() override;
 private:
     std::unique_ptr<ImageProcessingThread> processingThread;
     std::unique_ptr<LambdaTimer> lambdaTimer;
+    bool firstImage = true;
+    std::array<Image, 2> imageToRenderTo;
 };

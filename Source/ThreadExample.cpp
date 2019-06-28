@@ -62,6 +62,14 @@ Renderer::Renderer()
     lambdaTimer = std::make_unique<LambdaTimer>(10, [this]()
     {
         processingThread = std::make_unique<ImageProcessingThread>(getWidth(), getHeight());
+        processingThread->setUpdateRendererFunc([this](Image&& image)
+        {
+            int renderIndex = firstImage ? 0 : 1;
+            firstImage = !firstImage;
+            imageToRenderTo[renderIndex] = std::move(image);
+            
+            triggerAsyncUpdate();
+        });
     });
 }
 
@@ -73,5 +81,11 @@ Renderer::~Renderer()
 
 void Renderer::paint(Graphics& g)
 {
-    
+    g.drawImage(firstImage ? imageToRenderTo[0] : imageToRenderTo[1],
+                getLocalBounds().toFloat());
+}
+
+void Renderer::handleAsyncUpdate()
+{
+    repaint();
 }
