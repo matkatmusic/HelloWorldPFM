@@ -40,19 +40,21 @@ void ImageProcessingThread::run()
     }
 }
 //=================================================================
-LambdaTimer::LambdaTimer()
+LambdaTimer::LambdaTimer(int ms, std::function<void()> f) : lambda(std::move(f))
 {
-    
+    startTimer(ms);
 }
 
 LambdaTimer::~LambdaTimer()
 {
-    
+    stopTimer();
 }
 
 void LambdaTimer::timerCallback()
 {
-    
+    stopTimer();
+    if( lambda )
+        lambda();
 }
 //=================================================================
 void Renderer::paint(Graphics& g)

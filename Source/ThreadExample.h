@@ -73,9 +73,11 @@ private:
 //=================================================================
 struct LambdaTimer : Timer
 {
-    LambdaTimer();
+    LambdaTimer(int ms, std::function<void()> f);
     ~LambdaTimer();
     void timerCallback() override;
+private:
+    std::function<void()> lambda;
 };
 //=================================================================
 struct Renderer : Component
