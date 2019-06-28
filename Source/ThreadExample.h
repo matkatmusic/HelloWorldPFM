@@ -55,7 +55,7 @@ struct MyThreadExample : Thread
 //=================================================================
 struct ImageProcessingThread : public Thread
 {
-    ImageProcessingThread(int w_, int h_ ) : Thread("ImageProcessingThread"), w(w_), h(h_)
+    ImageProcessingThread(int w_, int h_, std::function<void(Image&&)> f) : Thread("ImageProcessingThread"), w(w_), h(h_), updateRenderer( std::move(f) )
     { startThread(); }
     
     ~ImageProcessingThread()
@@ -63,7 +63,7 @@ struct ImageProcessingThread : public Thread
     
     void run() override;
     //our updateRenderer is private, so we need a setter
-    void setUpdateRendererFunc(std::function<void(Image&&)> f ) { updateRenderer = std::move(f); }
+//    void setUpdateRendererFunc(std::function<void(Image&&)> f ) { updateRenderer = std::move(f); }
 private:
     //members to hold the image size
     int w { 0 }, h {0};

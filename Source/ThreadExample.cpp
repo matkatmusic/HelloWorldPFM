@@ -63,8 +63,9 @@ Renderer::Renderer()
 {
     lambdaTimer = std::make_unique<LambdaTimer>(10, [this]()
     {
-        processingThread = std::make_unique<ImageProcessingThread>(getWidth(), getHeight());
-        processingThread->setUpdateRendererFunc([this](Image&& image)
+        processingThread = std::make_unique<ImageProcessingThread>(getWidth(),
+                                                                   getHeight(),
+                                                                   [this](Image&& image)
         {
             int renderIndex = firstImage ? 0 : 1;
             firstImage = !firstImage;
