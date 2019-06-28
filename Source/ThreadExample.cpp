@@ -22,6 +22,8 @@ void ImageProcessingThread::run()
         if( threadShouldExit() )
             break;
         
+        DBG( "[ImageProcessingThread] generating random image " << Time::getCurrentTime().toISO8601(true) );
+        
         for( int x = 0; x < w; ++x )
         {
             for( int y = 0; y < h; ++y )
@@ -81,6 +83,7 @@ Renderer::~Renderer()
 
 void Renderer::paint(Graphics& g)
 {
+    DBG("[Renderer] painting: " << Time::getCurrentTime().toISO8601(true) << "\n");
     g.drawImage(firstImage ? imageToRenderTo[0] : imageToRenderTo[1],
                 getLocalBounds().toFloat());
 }
