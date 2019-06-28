@@ -22,9 +22,13 @@ void ImageProcessingThread::run()
         if( threadShouldExit() )
             break;
         
-        /*
-         image processing here
-         */
+        for( int x = 0; x < w; ++x )
+        {
+            for( int y = 0; y < h; ++y )
+            {
+                canvas.setPixelAt(x, y, Colour{r.nextFloat(), r.nextFloat(), r.nextFloat(), r.nextFloat()});
+            }
+        }
         
         if( threadShouldExit() )
             break;

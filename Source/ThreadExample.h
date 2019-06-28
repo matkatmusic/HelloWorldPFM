@@ -68,5 +68,6 @@ private:
     //members to hold the image size
     int w { 0 }, h {0};
     std::function<void(Image&&)> updateRenderer;
+    Random r;
 };
 
