@@ -71,6 +71,11 @@ Renderer::Renderer()
             imageToRenderTo[renderIndex] = std::move(image);
             
             triggerAsyncUpdate();
+            
+            lambdaTimer = std::make_unique<LambdaTimer>(1000, [this]()
+            {
+                processingThread->notify();
+            });
         });
     });
 }
