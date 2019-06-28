@@ -67,8 +67,9 @@ Renderer::Renderer()
                                                                    getHeight(),
                                                                    [this](Image&& image, ImageProcessingThread& thread)
         {
-            int renderIndex = firstImage ? 0 : 1;
-            firstImage = !firstImage;
+            bool whichIndex = firstImage.get();
+            int renderIndex = whichIndex ? 0 : 1;
+            firstImage = !whichIndex;
             imageToRenderTo[renderIndex] = std::move(image);
             
 //            triggerAsyncUpdate();
@@ -94,7 +95,7 @@ Renderer::~Renderer()
 void Renderer::paint(Graphics& g)
 {
     DBG("[Renderer] painting: " << Time::getCurrentTime().toISO8601(true) << "\n");
-    g.drawImage(firstImage ? imageToRenderTo[0] : imageToRenderTo[1],
+    g.drawImage(firstImage.get() ? imageToRenderTo[0] : imageToRenderTo[1],
                 getLocalBounds().toFloat());
 }
 

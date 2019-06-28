@@ -93,6 +93,6 @@ struct Renderer : Component, Timer
 private:
     std::unique_ptr<ImageProcessingThread> processingThread;
     std::unique_ptr<LambdaTimer> lambdaTimer;
-    bool firstImage = true;
+    Atomic<bool> firstImage { true };
     std::array<Image, 2> imageToRenderTo;
 };
