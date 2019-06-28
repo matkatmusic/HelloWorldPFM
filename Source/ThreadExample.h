@@ -82,7 +82,10 @@ private:
 //=================================================================
 struct Renderer : Component
 {
+    Renderer();
+    ~Renderer();
     void paint(Graphics& g) override;
 private:
     std::unique_ptr<ImageProcessingThread> processingThread;
+    std::unique_ptr<LambdaTimer> lambdaTimer;
 };

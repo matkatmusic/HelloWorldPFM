@@ -57,6 +57,20 @@ void LambdaTimer::timerCallback()
         lambda();
 }
 //=================================================================
+Renderer::Renderer()
+{
+    lambdaTimer = std::make_unique<LambdaTimer>(10, [this]()
+    {
+        processingThread = std::make_unique<ImageProcessingThread>(getWidth(), getHeight());
+    });
+}
+
+Renderer::~Renderer()
+{
+    processingThread.reset();
+    lambdaTimer.reset();
+}
+
 void Renderer::paint(Graphics& g)
 {
     
