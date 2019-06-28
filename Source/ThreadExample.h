@@ -71,6 +71,13 @@ private:
     Random r;
 };
 //=================================================================
+struct LambdaTimer : Timer
+{
+    LambdaTimer();
+    ~LambdaTimer();
+    void timerCallback() override;
+};
+//=================================================================
 struct Renderer : Component
 {
     void paint(Graphics& g) override;

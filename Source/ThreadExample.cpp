@@ -40,6 +40,21 @@ void ImageProcessingThread::run()
     }
 }
 //=================================================================
+LambdaTimer::LambdaTimer()
+{
+    
+}
+
+LambdaTimer::~LambdaTimer()
+{
+    
+}
+
+void LambdaTimer::timerCallback()
+{
+    
+}
+//=================================================================
 void Renderer::paint(Graphics& g)
 {
     
