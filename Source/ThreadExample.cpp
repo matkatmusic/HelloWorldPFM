@@ -61,6 +61,7 @@ void LambdaTimer::timerCallback()
 //=================================================================
 Renderer::Renderer()
 {
+    /*
     lambdaTimer = std::make_unique<LambdaTimer>(10, [this]()
     {
         processingThread = std::make_unique<ImageProcessingThread>(getWidth(),
@@ -78,14 +79,16 @@ Renderer::Renderer()
             }
         });
     });
-    startTimerHz(20);
+     */
+//    startTimerHz(20);
+    Timer::callAfterDelay(10, [this]() { loop(); });
 }
 
-Renderer::~Renderer()
-{
-    processingThread.reset();
-    lambdaTimer.reset();
-}
+//Renderer::~Renderer()
+//{
+//    processingThread.reset();
+//    lambdaTimer.reset();
+//}
 
 void Renderer::paint(Graphics& g)
 {
@@ -94,7 +97,31 @@ void Renderer::paint(Graphics& g)
                 getLocalBounds().toFloat());
 }
 
-void Renderer::timerCallback()
+//void Renderer::timerCallback()
+//{
+//    repaint();
+//}
+
+void Renderer::loop()
 {
-    repaint();
+    auto w = getWidth();
+    auto h = getHeight();
+
+    Thread::launch([w, h, this]()
+    {
+        Random r;
+        auto canvas = Image(Image::PixelFormat::RGB, w, h, true);
+        for( int x = 0; x < w; ++x )
+        {
+            for( int y = 0; y < h; ++y )
+            {
+                canvas.setPixelAt(x, y, Colour{r.nextFloat(), r.nextFloat(), r.nextFloat(), r.nextFloat()});
+            }
+        }
+        imageToRenderTo.push(canvas);
+
+        Timer::callAfterDelay(10, [this](){ repaint(); });
+        Timer::callAfterDelay(1000, [this](){ loop(); });
+
+    });
 }

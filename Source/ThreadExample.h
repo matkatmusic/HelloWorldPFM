@@ -103,15 +103,16 @@ private:
 };
 //=================================================================
 #include <array>
-struct Renderer : Component, Timer
+struct Renderer : Component /*, Timer */
 {
     Renderer();
-    ~Renderer();
+//    ~Renderer();
     void paint(Graphics& g) override;
-    void timerCallback() override;
+//    void timerCallback() override;
 private:
-    std::unique_ptr<ImageProcessingThread> processingThread;
-    std::unique_ptr<LambdaTimer> lambdaTimer;
-    
+//    std::unique_ptr<ImageProcessingThread> processingThread;
+//    std::unique_ptr<LambdaTimer> lambdaTimer;
+
     ImageBuffer<3> imageToRenderTo;
+    void loop();
 };
