@@ -81,7 +81,12 @@ Renderer::Renderer()
     });
      */
 //    startTimerHz(20);
-    Timer::callAfterDelay(10, [this]() { loop(); });
+    Timer::callAfterDelay(10, [this]()
+    {
+        SafePointer<Renderer> safePtr(this);
+        if( safePtr.getComponent() != nullptr )
+            safePtr->loop();
+    });
 }
 
 //Renderer::~Renderer()
@@ -109,6 +114,7 @@ void Renderer::loop()
 
     Thread::launch([w, h, this]()
     {
+        SafePointer<Renderer> safePtr(this);
         Random r;
         auto canvas = Image(Image::PixelFormat::RGB, w, h, true);
         for( int x = 0; x < w; ++x )
@@ -118,10 +124,24 @@ void Renderer::loop()
                 canvas.setPixelAt(x, y, Colour{r.nextFloat(), r.nextFloat(), r.nextFloat(), r.nextFloat()});
             }
         }
-        imageToRenderTo.push(canvas);
 
-        Timer::callAfterDelay(10, [this](){ repaint(); });
-        Timer::callAfterDelay(1000, [this](){ loop(); });
+        if( safePtr.getComponent() != nullptr )
+        {
+            safePtr->imageToRenderTo.push(canvas);
 
+            Timer::callAfterDelay(10, [this]()
+            {
+                SafePointer<Renderer> safePtr(this);
+                if( safePtr.getComponent() != nullptr )
+                    safePtr->repaint();
+            });
+
+            Timer::callAfterDelay(1000, [this]()
+            {
+                SafePointer<Renderer> safePtr(this);
+                if( safePtr.getComponent() != nullptr )
+                    safePtr->loop();
+            });
+        }
     });
 }
